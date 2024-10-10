@@ -4,9 +4,9 @@ import { toast } from "sonner"
 
 import amaLogo from '../assets/ama-logo.svg'
 
-
+import { Suspense } from "react"
 import { CreateMessageForm } from "../components/create-message-form"
-
+import { Messages } from "../components/messages"
 
 
 export function Room() {
@@ -47,6 +47,9 @@ export function Room() {
 
       <CreateMessageForm />
 
+      <Suspense fallback={<p>Carregando...</p>}>
+        <Messages />
+      </Suspense>
     </div>
   )
 }
