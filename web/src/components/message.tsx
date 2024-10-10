@@ -1,7 +1,9 @@
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-
+import { createMessageReaction } from "../http/create-message-reaction";
+import { toast } from "sonner";
+import { removeMessageReaction } from "../http/remove-message-reaction";
 
 
 interface MessageProps {
@@ -12,7 +14,7 @@ interface MessageProps {
 }
 
 export function Message({ 
-  id,
+  id: messageId, 
   text, 
   amountOfReactions, 
   answered = false,
@@ -29,7 +31,11 @@ export function Message({
       return
     }
 
-
+    try {
+      await createMessageReaction({ messageId, roomId })
+    } catch {
+      toast.error('Falha ao reagir mensagem, tente novamente!')
+    }
 
     setHasReacted(true)
   }
@@ -39,6 +45,11 @@ export function Message({
       return
     }
 
+    try {
+      await removeMessageReaction({ messageId, roomId })
+    } catch {
+      toast.error('Falha ao remover reação, tente novamente!')
+    }
 
     setHasReacted(false)
   }
