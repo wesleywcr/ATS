@@ -3,6 +3,7 @@ import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 
 import amaLogo from '../assets/ama-logo.svg'
+import { createRoom } from '../http/create-room'
 
 
 export function CreateRoom() {
@@ -16,14 +17,13 @@ export function CreateRoom() {
     }
 
     try {
+      const { roomId } = await createRoom({ theme })
 
-
-      navigate(`/room/${'12312'}`)
+      navigate(`/room/${roomId}`)
     } catch {
       toast.error('Falha ao criar sala!')
     }
   }
-
   return (
     <main className="h-screen flex items-center justify-center px-4">
       <div className="max-w-[450px] flex flex-col gap-6">
