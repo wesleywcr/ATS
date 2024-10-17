@@ -57,24 +57,28 @@ func NewHandler(q *pgstore.Queries) http.Handler {
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/rooms", func(r chi.Router) {
 			r.Post("/", a.handleCreateRoom)
-			r.Get("/", a.handleGetRoom)
+			r.Get("/", a.handleGetRooms)
 
-			r.Route("/{room_id}/messages", func(r chi.Router) {
-				r.Post("/", a.handleCreateRoomMessage)
-				r.Get("/", a.handleGetRoomMessages)
+			r.Route("/{room_id}", func(r chi.Router) {
+				r.Get("/", a.handleGetRoom)
 
-				r.Route("/{message_id}", func(r chi.Router) {
-					r.Get("/", a.handleGetRoomMessage)
-					r.Patch("/react", a.handleReactToMessage)
-					r.Delete("/react", a.handleRemoveReactFromMessage)
-					r.Patch("/answer", a.handleMarkMessageAsAnswer)
+				r.Route("/messages", func(r chi.Router) {
+					r.Post("/", a.handleCreateRoomMessage)
+					r.Get("/", a.handleGetRoomMessages)
+
+					r.Route("/{message_id}", func(r chi.Router) {
+						r.Get("/", a.handleGetRoomMessage)
+						r.Patch("/react", a.handleReactToMessage)
+						r.Delete("/react", a.handleRemoveReactFromMessage)
+						r.Patch("/answer", a.handleMarkMessageAsAnswer)
+
+					})
 				})
 			})
 		})
 	})
 
 	a.r = r
-
 	return a
 }
 
@@ -164,6 +168,7 @@ func (h apiHandler) handleSubscribe(w http.ResponseWriter, r *http.Request) {
 	h.mu.Unlock()
 
 }
+
 func (h apiHandler) handleCreateRoom(w http.ResponseWriter, r *http.Request) {
 	type _body struct {
 		Theme string `json:"theme"`
@@ -187,6 +192,20 @@ func (h apiHandler) handleCreateRoom(w http.ResponseWriter, r *http.Request) {
 	data, _ := json.Marshal(response{ID: string(roomID.String())})
 	w.Header().Set("content-type", "application/json")
 	_, _ = w.Write(data)
+}
+func (h apiHandler) handleGetRooms(w http.ResponseWriter, r *http.Request) {
+	rooms, err := h.q.GetRooms(r.Context())
+	if err != nil {
+		http.Error(w, "something went wrong", http.StatusInternalServerError)
+		slog.Error("failed to get rooms", "error", err)
+		return
+	}
+
+	if rooms == nil {
+		rooms = []pgstore.Room{}
+	}
+
+	sendJSON(w, rooms)
 }
 
 func (h apiHandler) handleGetRoom(w http.ResponseWriter, r *http.Request) {
