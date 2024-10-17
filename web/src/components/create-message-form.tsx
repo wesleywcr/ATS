@@ -27,7 +27,7 @@ export function CreateMessageForm() {
   return (
     <form 
       action={createMessageAction}
-      className="flex items-center gap-2 bg-zinc-900 p-2 rounded-xl border border-zinc-800 ring-orange-400 ring-offset-2 ring-offset-zinc-950 focus-within:ring-1"
+      className="flex items-center gap-2 bg-zinc-900 p-2 rounded-xl border border-zinc-800 ring-teal-400 ring-offset-2 ring-offset-zinc-950 focus-within:ring-1"
     >
       <input 
         type="text" 
@@ -40,7 +40,7 @@ export function CreateMessageForm() {
 
       <button 
         type="submit" 
-        className="bg-orange-400 text-orange-950 px-3 py-1.5 gap-1.5 flex items-center rounded-lg font-medium text-sm transition-colors hover:bg-orange-500"
+        className="bg-teal-400 text-teal-950 px-3 py-1.5 gap-1.5 flex items-center rounded-lg font-medium text-sm transition-colors hover:bg-teal-500"
       >
         Criar pergunta
         <ArrowRight className="size-4" />

@@ -62,7 +62,7 @@ export function Message({
         <button 
           type="button" 
           onClick={removeMessageReactionAction} 
-          className="mt-3 flex items-center gap-2 text-orange-400 text-sm font-medium hover:text-orange-500"
+          className="mt-3 flex items-center gap-2 text-teal-400 text-sm font-medium hover:text-teal-500"
         >
           <ArrowUp className="size-4" />
           Curtir pergunta ({amountOfReactions})
