@@ -1,4 +1,4 @@
-package api
+package handler
 
 import (
 	"ama-server/internal/store/pgstore"
@@ -12,7 +12,14 @@ import (
 	"github.com/jackc/pgx/v5"
 )
 
-func (h apiHandler) readRoom(
+const (
+	MessageKindMessageCreated          = "message_created"
+	MessageKindMessageRactionIncreased = "message_reaction_increased"
+	MessageKindMessageRactionDecreased = "message_reaction_decreased"
+	MessageKindMessageAnswered         = "message_answered"
+)
+
+func (h ApiHandler) readRoom(
 	w http.ResponseWriter,
 	r *http.Request,
 ) (room pgstore.Room, rawRoomID string, roomID uuid.UUID, ok bool) {
@@ -23,7 +30,7 @@ func (h apiHandler) readRoom(
 		return pgstore.Room{}, "", uuid.UUID{}, false
 	}
 
-	room, err = h.q.GetRoom(r.Context(), roomID)
+	room, err = h.Q.GetRoom(r.Context(), roomID)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			http.Error(w, "room not found", http.StatusBadRequest)
