@@ -18,7 +18,7 @@ export function useMessagesWebSockets({
   const queryClient = useQueryClient()
 
   useEffect(() => {
-    const ws = new WebSocket(`ws://localhost:8080/subscribe/${roomId}`)
+    const ws = new WebSocket(`${import.meta.env.VITE_APP_API_WS}/subscribe/${roomId}`)
 
     ws.onopen = () => {
       console.log('Websocket connected!')
