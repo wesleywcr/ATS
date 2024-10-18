@@ -30,7 +30,7 @@ export function CreateRoom() {
         <img src={amaLogo} alt="AMA" className="h-10" />
 
         <p className="leading-relaxed text-zinc-300 text-center">
-          Crie uma sala pública de AMA (Ask me anything) e priorize as perguntas mais importantes para a comunidade.
+        Inicie um tópico aberto para perguntas e respostas, concentrando-se nas dúvidas mais relevantes para a comunidade.
         </p>
 
         <form 
