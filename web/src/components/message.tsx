@@ -65,7 +65,7 @@ export function Message({
           className="mt-3 flex items-center gap-2 text-teal-400 text-sm font-medium hover:text-teal-500"
         >
           <ArrowUp className="size-4" />
-          Curtir pergunta ({amountOfReactions})
+          Curtir ({amountOfReactions})
         </button>
       ) : (
         <button 
@@ -74,7 +74,7 @@ export function Message({
           className="mt-3 flex items-center gap-2 text-zinc-400 text-sm font-medium hover:text-zinc-300"
         >
           <ArrowUp className="size-4" />
-          Curtir pergunta ({amountOfReactions})
+          Curtir ({amountOfReactions})
         </button>
       )}
     </li>
